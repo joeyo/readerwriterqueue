@@ -1,7 +1,18 @@
 ifeq ($(OS),Windows_NT)
-	EXT = .exe
+	EXT=.exe
+	PLATFORM_OPTS=-static
+	PLATFORM_LD_OPTS=-Wl,--no-as-needed
 else
-	EXT =
+	UNAME_S := $(shell uname -s)
+	ifeq ($(UNAME_S),Darwin)
+		EXT=
+		PLATFORM_OPTS=
+		PLATFORM_LD_OPTS=
+	else
+		EXT=
+		PLATFORM_OPTS=
+		PLATFORM_LD_OPTS=-lrt -Wl,--no-as-needed
+	endif
 endif
 
 
